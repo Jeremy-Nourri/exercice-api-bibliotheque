@@ -6,7 +6,7 @@ const controllerLivre = {
     try {
       const bookData = req.body;
       await Livre.createBook(bookData);
-      res.send("Livre ajouté avec succès");
+      res.status(201).send("Livre ajouté avec succès");
     } catch (err) {
       console.error(err);
       res.status(500).send("Erreur lors de l'ajout du livre");
@@ -42,7 +42,7 @@ const controllerLivre = {
       if (result) {
         res.json(result);
       } else {
-        res.status(500).send("Aucun livre disponible");
+        res.status(404).send("Aucun livre disponible");
       }
     } catch (err) {
       console.error(err);
@@ -57,7 +57,7 @@ const controllerLivre = {
       if (result) {
         res.json(result);
       } else {
-        res.status(500).send("Aucun livre ne correspond à votre recherche");
+        res.status(404).send("Aucun livre ne correspond à votre recherche");
       }
 
     } catch (err) {
