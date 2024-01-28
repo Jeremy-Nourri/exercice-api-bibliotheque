@@ -21,7 +21,7 @@ class Livre {
 
   static async getBookByTitle(bookTitle) {
     const result = await connection.promise().query('SELECT * FROM livres WHERE titre= ?', bookTitle);
-    console.log(result[0]); // Assurez-vous que votre résultat est dans le premier élément du tableau (result[0])
+    console.log(result[0]);
     return result[0][0];
   }
 }

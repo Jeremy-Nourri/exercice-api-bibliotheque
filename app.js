@@ -9,7 +9,7 @@ app.use(bodyParser.json());
 app.use(bookRoutes);
 
 app.get('*', (req, res) => {
-  res.status(404).json({ error: 'Page not found' });
+  res.status(404).json({ error: 'Page non trouvée' });
 });
 
 app.listen(PORT, () => {

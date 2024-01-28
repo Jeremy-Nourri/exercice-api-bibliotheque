@@ -5,11 +5,13 @@ const controllerLivre = {
   createBook: async (req, res) => {
     try {
       const bookData = req.body;
+      if (!bookData) {
+        return res.status(400).json({ error: "Le corps de la requête est incomplet"})
+      }
       await Livre.createBook(bookData);
-      res.status(201).send("Livre ajouté avec succès");
-    } catch (err) {
-      console.error(err);
-      res.status(500).send("Erreur lors de l'ajout du livre");
+      res.status(201).json({ message: "Livre ajouté avec succès" });
+    } catch (error) {
+      res.status(500).json({ error: "Erreur lors de l'ajout du livre" });
     }
   },
 
@@ -17,11 +19,13 @@ const controllerLivre = {
     try {
       const bookData = req.body;
       const bookId = req.params.id;
+      if (!bookData) {
+        return res.status(400).json({ error: "Le corps de la requête est incomplet"})
+      }
       await Livre.updateBook(bookId, bookData);
-      res.send("Livre mise à jour avec succès");
-    } catch (err) {
-      console.error(err);
-      res.status(500).send("Erreur lors de la mise à jour du livre");
+      res.json({ message: "Livre mise à jour avec succès" });
+    } catch (error) {
+      res.status(500).json({ error: "Erreur lors de la mise à jour du livre" });
     }
   },
 
@@ -29,24 +33,21 @@ const controllerLivre = {
     try {
       const bookId = req.params.id;
       await Livre.deleteBook(bookId);
-      res.send("Livre supprimé avec succès");
-    } catch (err) {
-      console.error(err);
-      res.status(500).send("Erreur lors de la suppression du livre");
+      res.json({ message: "Livre supprimé avec succès" });
+    } catch (error) {
+      res.status(500).json({ error: "Erreur lors de la suppression du livre" });
     }
   },
 
   getAllBooks: async (req, res) => {
     try {
       const result = await Livre.getAllBooks();
-      if (result) {
-        res.json(result);
-      } else {
-        res.status(404).send("Aucun livre disponible");
+      if (!result) {
+        return res.status(404).json({ message: "Aucun livre disponible" });
       }
-    } catch (err) {
-      console.error(err);
-      res.status(500).send("Erreur lors de la requête");
+      res.json(result);
+    } catch (error) {
+      res.status(500).json({ error: "Erreur lors de la requête" });
     }
   },
 
@@ -54,15 +55,12 @@ const controllerLivre = {
     try {
       const bookTitle = req.params.title;
       const result = await Livre.getBookByTitle(bookTitle);
-      if (result) {
-        res.json(result);
-      } else {
-        res.status(404).send("Aucun livre ne correspond à votre recherche");
+      if (!result) {
+        return res.status(404).json({ error: "Aucun livre ne correspond à votre recherche" });
       }
-
+      res.json(result);
     } catch (err) {
-      console.error(err);
-      res.status(500).send("Erreur lors de la requête");
+      res.status(500).json({ error: "Erreur lors de la requête" });
     }
   }
 }
